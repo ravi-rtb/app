@@ -82,10 +82,10 @@ function App() {
         {/* Header */}
         <div className="text-center mb-8">
           <h1 className="text-4xl font-bold text-gray-800 mb-2">
-            Locomotive Data Summary
+            Diesel Loco Shed - Kazipet - Loco Data
           </h1>
           <p className="text-gray-600">
-            Search for locomotive details, schedules, and failure reports
+            Loco details ,  Schedules and Failures 
           </p>
         </div>
 
