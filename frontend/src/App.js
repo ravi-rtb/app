@@ -258,7 +258,7 @@ function App() {
                           <td className="px-4 py-4 whitespace-nowrap text-sm text-gray-900">
                             {failure.date_failed || '-'}
                           </td>
-                          <td className="px-4 py-4 text-sm text-gray-900 max-w-xs truncate" title={failure.icms_message}>
+                          <td className="px-4 py-4 text-sm text-gray-900 " title={failure.icms_message}>
                             {failure.icms_message || '-'}
                           </td>
                           <td className="px-4 py-4 whitespace-nowrap text-sm text-gray-900">
@@ -273,16 +273,16 @@ function App() {
                           <td className="px-4 py-4 whitespace-nowrap text-sm text-gray-900">
                             {failure.rly || '-'}
                           </td>
-                          <td className="px-4 py-4 text-sm text-gray-900 max-w-xs truncate" title={failure.brief_message}>
+                          <td className="px-4 py-4 text-sm text-gray-900 " title={failure.brief_message}>
                             {failure.brief_message || '-'}
                           </td>
-                          <td className="px-4 py-4 text-sm text-gray-900 max-w-xs truncate" title={failure.cause_of_failure}>
+                          <td className="px-4 py-4 text-sm text-gray-900 " title={failure.cause_of_failure}>
                             {failure.cause_of_failure || '-'}
                           </td>
-                          <td className="px-4 py-4 text-sm text-gray-900 max-w-xs truncate" title={failure.component}>
+                          <td className="px-4 py-4 text-sm text-gray-900 " title={failure.component}>
                             {failure.component || '-'}
                           </td>
-                          <td className="px-4 py-4 text-sm text-gray-900 max-w-xs truncate" title={failure.system}>
+                          <td className="px-4 py-4 text-sm text-gray-900 " title={failure.system}>
                             {failure.system || '-'}
                           </td>
                         </tr>
