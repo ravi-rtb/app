@@ -131,11 +131,7 @@ def main():
     
     # Test 6: Manual Refresh (optional - takes time)
     print("\n🔄 Testing manual refresh (this may take a while)...")
-    user_input = input("Run manual refresh test? (y/n): ").lower().strip()
-    if user_input == 'y':
-        tester.test_manual_refresh()
-    else:
-        print("⏭️  Skipping manual refresh test")
+    print("⏭️  Skipping manual refresh test for automated testing")
     
     # Print final results
     print("\n" + "=" * 60)
