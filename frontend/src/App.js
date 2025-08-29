@@ -262,10 +262,10 @@ function App() {
                             {failure.icms_message || '-'}
                           </td>
                           <td className="px-4 py-4 whitespace-nowrap text-sm text-gray-900">
-                            {failure.loco_no || '-'}
+                            {failure.loco_no ? failure.loco_no.replace(/\.0$/, '') : '-'}
                           </td>
                           <td className="px-4 py-4 whitespace-nowrap text-sm text-gray-900">
-                            {failure.mu_with || '-'}
+                            {failure.mu_with ? failure.mu_with.replace(/\.0$/, '') : '-'}
                           </td>
                           <td className="px-4 py-4 whitespace-nowrap text-sm text-gray-900">
                             {failure.div || '-'}
