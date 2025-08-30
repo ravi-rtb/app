@@ -221,6 +221,7 @@ function App() {
             )}
 
             {/* Traction Failures */}
+            {/* Traction Failures */}
             {searchResults.failures && searchResults.failures.length > 0 && (
               <div className="bg-white rounded-lg shadow-md overflow-hidden">
                 <div className="bg-gray-50 px-6 py-4 border-b">
@@ -232,36 +233,12 @@ function App() {
                   <table className="w-full">
                     <thead className="bg-gray-100">
                       <tr>
-                        <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                          Date Failed
-                        </th>
-                        <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                          ICMS/Message
-                        </th>
-                        <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                          Loco No.
-                        </th>
-                        <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                          MU with
-                        </th>
-                        <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                          Division
-                        </th>
-                        <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                          Railway
-                        </th>
-                        <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                          Brief Message
-                        </th>
-                        <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                          Cause of Failure
-                        </th>
-                        <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                          Component
-                        </th>
-                        <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                          System
-                        </th>
+                        <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Date Failed</th>
+                        <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Loco No.+MU with</th>
+                        <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">ICMS/Message<br/>Division<br/>Railway</th>
+                        <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Brief Message</th>
+                        <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Cause of Failure</th>
+                        <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Component<br/>System</th>
                       </tr>
                     </thead>
                     <tbody className="bg-white divide-y divide-gray-200">
@@ -270,32 +247,23 @@ function App() {
                           <td className="px-4 py-4 whitespace-nowrap text-sm text-gray-900">
                             {failure.date_failed || '-'}
                           </td>
-                          <td className="px-4 py-4 text-sm text-gray-900 whitespace-normal " title={failure.icms_message}>
-                            {failure.icms_message || '-'}
+                          <td className="px-4 py-4 whitespace-nowrap text-sm">
+                            <strong className="text-gray-900">{failure.loco_no || '-'}</strong>
+                            {failure.mu_with ? ` + ${failure.mu_with}` : ''}
                           </td>
-                          <td className="px-4 py-4 whitespace-nowrap text-sm text-gray-900">
-                            {failure.loco_no ? failure.loco_no.replace(/\.0$/, '') : '-'}
+                          <td className="px-4 py-4 whitespace-pre-line text-sm text-gray-900">
+                            {(failure.icms_message || '-') + '\n' +
+                             (failure.div || '-') + '\n' +
+                             (failure.rly || '-')}
                           </td>
-                          <td className="px-4 py-4 whitespace-nowrap text-sm text-gray-900">
-                            {failure.mu_with ? failure.mu_with.replace(/\.0$/, '') : '-'}
-                          </td>
-                          <td className="px-4 py-4 whitespace-nowrap text-sm text-gray-900">
-                            {failure.div || '-'}
-                          </td>
-                          <td className="px-4 py-4 whitespace-nowrap text-sm text-gray-900">
-                            {failure.rly || '-'}
-                          </td>
-                          <td className="px-4 py-4 text-sm text-gray-900 whitespace-normal" title={failure.brief_message}>
+                          <td className="px-4 py-4 text-sm text-gray-900 whitespace-normal">
                             {failure.brief_message || '-'}
                           </td>
-                          <td className="px-4 py-4 text-sm text-gray-900 whitespace-normal" title={failure.cause_of_failure}>
+                          <td className="px-4 py-4 text-sm text-gray-900 whitespace-normal">
                             {failure.cause_of_failure || '-'}
                           </td>
-                          <td className="px-4 py-4 text-sm text-gray-900 whitespace-normal" title={failure.component}>
-                            {failure.component || '-'}
-                          </td>
-                          <td className="px-4 py-4 text-sm text-gray-900 whitespace-normal" title={failure.system}>
-                            {failure.system || '-'}
+                          <td className="px-4 py-4 whitespace-pre-line text-sm text-gray-900">
+                            {(failure.component || '-') + '\n' + (failure.system || '-')}
                           </td>
                         </tr>
                       ))}
