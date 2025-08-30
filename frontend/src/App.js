@@ -204,7 +204,7 @@ function App() {
                         </tr>
                       ))}
                     </tbody>
-                    // Below the table, add:
+                   
                     {visibleSchedules < searchResults.schedules.length && (
                       <div className="px-6 py-4 text-center">
                         <button
