@@ -12,6 +12,7 @@ function App() {
   const [error, setError] = useState('');
   const [suggestions, setSuggestions] = useState([]);
   const [showSuggestions, setShowSuggestions] = useState(false);
+  const [visibleSchedules, setVisibleSchedules] = useState(5);
 
   // Search for loco suggestions
   const handleLocoSearch = async (value) => {
@@ -188,8 +189,8 @@ function App() {
                         </th>
                       </tr>
                     </thead>
-                    <tbody className="bg-white divide-y divide-gray-200">
-                      {searchResults.schedules.map((schedule, index) => (
+                   <tbody className="bg-white divide-y divide-gray-200">
+                      {searchResults.schedules.slice(0, visibleSchedules).map((schedule, index) => (
                         <tr key={index} className={index % 2 === 0 ? 'bg-white' : 'bg-gray-50'}>
                           <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
                             {schedule.incoming_date || '-'}
@@ -203,6 +204,17 @@ function App() {
                         </tr>
                       ))}
                     </tbody>
+                    // Below the table, add:
+                    {visibleSchedules < searchResults.schedules.length && (
+                      <div className="px-6 py-4 text-center">
+                        <button
+                          className="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700"
+                          onClick={() => setVisibleSchedules(visibleSchedules + 5)}
+                        >
+                          More
+                        </button>
+                      </div>
+                    )}
                   </table>
                 </div>
               </div>
