@@ -226,7 +226,7 @@ function App() {
               <div className="bg-white rounded-lg shadow-md overflow-hidden">
                 <div className="bg-gray-50 px-6 py-4 border-b">
                   <h2 className="text-xl font-semibold text-gray-800">
-                    Traction Failures
+                    Online Failures
                   </h2>
                 </div>
                 <div className="overflow-x-auto">
@@ -248,12 +248,14 @@ function App() {
                             {failure.date_failed || '-'}
                           </td>
                           <td className="px-4 py-4 whitespace-nowrap text-sm">
-                            <strong className="text-gray-900">{failure.loco_no || '-'}</strong>
-                            {failure.mu_with ? ` + ${failure.mu_with}` : ''}
+                            <strong className="text-gray-900">
+                              {failure.loco_no ? parseInt(failure.loco_no, 10) : '-'}
+                            </strong>
+                            {failure.mu_with ? ` + ${parseInt(failure.mu_with, 10)}` : ''}
                           </td>
                           <td className="px-4 py-4 whitespace-pre-line text-sm text-gray-900">
                             {(failure.icms_message || '-') + '\n' +
-                             (failure.div || '-') + '\n' +
+                             (failure.div || '-') + '/' +
                              (failure.rly || '-')}
                           </td>
                           <td className="px-4 py-4 text-sm text-gray-900 whitespace-normal">
@@ -263,7 +265,7 @@ function App() {
                             {failure.cause_of_failure || '-'}
                           </td>
                           <td className="px-4 py-4 whitespace-pre-line text-sm text-gray-900">
-                            {(failure.component || '-') + '\n' + (failure.system || '-')}
+                            {(failure.component || '-') + '-' + (failure.system || '-')}
                           </td>
                         </tr>
                       ))}
