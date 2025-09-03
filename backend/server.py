@@ -32,7 +32,8 @@ SHEET_ID = '1oVY3a7LrG4zn2oVkW88bi31uZqGdw_mb-YHk2-NVqKQ'
 SHEET_NAMES = {
     'loco_list': 'Loco_list',
     'loco_schedules': 'Loco_Schedules', 
-    'traction_failures': 'Traction_failures'
+    'traction_failures': 'Traction_failures',
+    'wag7_modifications': 'WAG7_Modifications'
 }
 
 # Data refresh settings
@@ -66,6 +67,7 @@ class LocoSummaryResponse(BaseModel):
     details: List[LocoDetail]
     schedules: List[LocoSchedule]
     failures: List[TractionFailure]
+    modifications: List[ModificationDetail]
     last_updated: datetime
 
 class RefreshStatusResponse(BaseModel):
@@ -150,6 +152,20 @@ async def refresh_all_data():
         if failure_records:
             await db.failure_data.insert_many(failure_records)
         
+        # Fetch and store WAG7_Modifications data
+        modifications_df = await fetch_sheet_data(SHEET_NAMES['wag7_modifications'])
+        modifications_records = []
+        for _, row in modifications_df.iterrows():
+            record = {
+                'collection': 'modifications_data',
+                'loco_no': str(row.get('Loco No.', '')).strip(),  # Adjust column name as in your sheet
+                'data': row.to_dict(),
+                'updated_at': datetime.utcnow()
+            }
+            modifications_records.append(record)
+        if modifications_records:
+            await db.modifications_data.insert_many(modifications_records)
+            
         last_refresh_time = datetime.utcnow()
         
         logger.info(f"Data refresh completed. Loco: {len(loco_records)}, Schedules: {len(schedule_records)}, Failures: {len(failure_records)}")
@@ -233,15 +249,27 @@ async def get_loco_summary(loco_no: str):
                 system=str(data.get('System ', '')).strip() or None
             )
             failures.append(failure)
+    # Fetch modifications
+    modifications_data = await db.modifications_data.find_one({'loco_no': loco_no})
+    modifications = []
+    if modifications_data and 'data' in modifications_data:
+        data = modifications_data['data']
+        exclude_fields = ['Type', 'Loco No.']  # adjust as needed
+        for key, value in data.items():
+            if key not in exclude_fields and str(value).strip():
+                modifications.append(ModificationDetail(field=key, value=str(value)))
+            
     
-    if not details and not schedules and not failures:
+   # If there's no data at all, throw 404
+    if not details and not schedules and not failures and not modifications:
         raise HTTPException(status_code=404, detail=f"No data found for loco number: {loco_no}")
-    
+
     return LocoSummaryResponse(
         loco_no=loco_no,
         details=details,
         schedules=schedules,
         failures=failures,
+        modifications=modifications,
         last_updated=last_refresh_time or datetime.utcnow()
     )
 
@@ -268,6 +296,7 @@ async def get_refresh_status():
     loco_count = await db.loco_data.count_documents({})
     schedule_count = await db.schedule_data.count_documents({})
     failure_count = await db.failure_data.count_documents({})
+    modifications_count = await db.modifications_data.count_documents({})
     
     next_refresh = None
     if last_refresh_time:
@@ -280,7 +309,8 @@ async def get_refresh_status():
         records_count={
             "loco_data": loco_count,
             "schedule_data": schedule_count,
-            "failure_data": failure_count
+            "failure_data": failure_count,
+            "modifications_data": modifications_count
         }
     )
 
